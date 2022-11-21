@@ -18,22 +18,18 @@ function Home() {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
     }
-
     if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
       Alert.alert("You need to grant camera permissions to use this app");
       return false;
     }
-
     return true;
   }
 
   async function takePhotoHandler() {
     const hasPermission = await verifyPermissions();
-
     if (!hasPermission) {
       return;
     }
-
     const photo = await launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],

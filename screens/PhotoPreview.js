@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Image, ScrollView, StyleSheet } from "react-native";
 import { windowHeight, windowWidth } from "../constants/dimensions";
 
 function PhotoPreview({ route }) {

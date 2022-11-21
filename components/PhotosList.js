@@ -13,7 +13,9 @@ function PhotosList() {
       const photoList = await fetchPhotos();
       setLoadedImages(photoList);
     }
-    loadPhotos();
+    if (isFocused) {
+      loadPhotos();
+    }
   }, [isFocused]);
 
   if (loadedImages[0] === "") {
