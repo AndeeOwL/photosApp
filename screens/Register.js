@@ -21,11 +21,11 @@ function Register({ navigation }) {
   };
 
   const navigateLogin = async () => {
-    const user = await fetchUser(username);
-    if (username === user[0]) {
-      Alert.alert("Username already exist");
-      return;
-    }
+    // const user = await fetchUser(username);
+    // if (username === user[0]) {
+    //   Alert.alert("Username already exist");
+    //   return;
+    // }
     if (password !== repeatPassword) {
       Alert.alert("Passwords does not match");
       return;

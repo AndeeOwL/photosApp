@@ -4,13 +4,13 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { fetchPhotos } from "../util/database";
 import Photo from "./Photo";
 
-function PhotosList() {
+function PhotosList(props) {
   const isFocused = useIsFocused();
   const [loadedImages, setLoadedImages] = useState([""]);
 
   useEffect(() => {
     async function loadPhotos() {
-      const photoList = await fetchPhotos();
+      const photoList = await fetchPhotos(props.id);
       setLoadedImages(photoList);
     }
     if (isFocused) {
@@ -18,7 +18,7 @@ function PhotosList() {
     }
   }, [isFocused]);
 
-  if (loadedImages[0] === "") {
+  if (loadedImages[0] === undefined) {
     return (
       <View style={styles.fallBackContainer}>
         <Text style={styles.fallbackText}>No photos added yet</Text>

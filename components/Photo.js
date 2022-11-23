@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, StyleSheet } from "react-native";
 
-function Photo({ photo, navigation }) {
+function Photo({ photo }) {
+  const navigation = useNavigation();
   const openImagePreview = () => {
     navigation.navigate("PhotoPreview", {
       image: photo,

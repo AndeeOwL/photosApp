@@ -5,6 +5,7 @@ import {
   launchImageLibraryAsync,
   MediaTypeOptions,
 } from "expo-image-picker";
+import { useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
 import { insertPhoto } from "../util/database";
@@ -35,7 +36,7 @@ function Home({ route }) {
       aspect: [16, 9],
       quality: 0.5,
     });
-    await insertPhoto(photo.assets[0].uri, route.params.username);
+    await insertPhoto(photo.assets[0].uri, route.params.id);
   }
 
   async function uploadPhotoHandler() {
@@ -46,13 +47,13 @@ function Home({ route }) {
       quality: 0.5,
     });
 
-    await insertPhoto(image.assets[0].uri, route.params.username);
+    await insertPhoto(image.assets[0].uri, route.params.id);
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{route.params.username} photos app</Text>
-      <PhotosList />
+      <PhotosList id={route.params.id} />
       <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
           <Button title='Take Photo' onPress={takePhotoHandler} />

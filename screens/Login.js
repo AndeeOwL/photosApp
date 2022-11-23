@@ -19,15 +19,18 @@ function Login() {
 
   const navigateLogin = async () => {
     const user = await fetchUser(username);
-    if (username !== user[0]) {
-      Alert.alert("Wrong username");
+    if (username !== user[1]) {
+      Alert.alert("Invalid username");
+      return;
     }
-    if (password !== user[1]) {
-      Alert.alert("wrong password");
+    if (password !== user[2]) {
+      Alert.alert("Invalid password");
+      return;
     }
 
     navigation.navigate("Home", {
-      username: username,
+      id: user[0],
+      username: user[1],
     });
   };
 
