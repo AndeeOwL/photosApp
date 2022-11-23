@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import Home from "./screens/Home";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
 import PhotoPreview from "./screens/PhotoPreview";
 import { init } from "./util/database";
 
@@ -18,6 +20,20 @@ export default function App() {
       <StatusBar style='auto' />
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name='Login'
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name='Register'
+            component={Register}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name='Home'
             component={Home}

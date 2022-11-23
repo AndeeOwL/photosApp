@@ -9,7 +9,7 @@ import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
 import { insertPhoto } from "../util/database";
 
-function Home() {
+function Home({ route }) {
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
@@ -35,7 +35,7 @@ function Home() {
       aspect: [16, 9],
       quality: 0.5,
     });
-    await insertPhoto(photo.assets[0].uri);
+    await insertPhoto(photo.assets[0].uri, route.params.username);
   }
 
   async function uploadPhotoHandler() {
@@ -46,12 +46,12 @@ function Home() {
       quality: 0.5,
     });
 
-    await insertPhoto(image.assets[0].uri);
+    await insertPhoto(image.assets[0].uri, route.params.username);
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Your photos app</Text>
+      <Text style={styles.title}>{route.params.username} photos app</Text>
       <PhotosList />
       <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
