@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import RegisterForm from "../components/RegisterForm";
+import { fetchUser, insertUser } from "../util/database";
 
 function Register({ navigation }) {
   const [username, setUsername] = useState();

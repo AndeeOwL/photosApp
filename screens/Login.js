@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import LoginForm from "../components/LoginForm";
+import { fetchUser } from "../util/database";
 
 function Login() {
   const [username, setUsername] = useState();
