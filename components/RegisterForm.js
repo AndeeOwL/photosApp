@@ -1,4 +1,4 @@
-import { Button, TextInput } from "react-native";
+import { Button, Text, TextInput, View } from "react-native";
 
 function RegisterForm(props) {
   return (

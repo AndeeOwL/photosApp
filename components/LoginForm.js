@@ -1,4 +1,4 @@
-import { Button, StyleSheet, TextInput } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 function LoginForm(props) {
   <View style={styles.formContainer}>
