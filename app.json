@@ -41,10 +41,10 @@
       [
         "react-native-fbsdk-next",
         {
-          "appID": "48127127xxxxxxxx",
-          "clientToken": "c5078631e4065b60d7544a95xxxxxxxx",
-          "displayName": "RN SDK Demo",
-          "scheme": "fb48127127xxxxxxxx",
+          "appID": "620561843086574",
+          "clientToken": "70fb99e6575a88a3e26807d6719d5809",
+          "displayName": "photosApp",
+          "scheme": "fb620561843086574",
           "advertiserIDCollectionEnabled": false,
           "autoLogAppEventsEnabled": false,
           "isAutoInitEnabled": true,
