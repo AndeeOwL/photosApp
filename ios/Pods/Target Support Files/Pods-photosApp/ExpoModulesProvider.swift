@@ -8,25 +8,45 @@
 import ExpoModulesCore
 import ExpoImagePicker
 import ExpoKeepAwake
+import ExpoSystemUI
 import ExpoAdapterFBSDKNext
+#if EXPO_CONFIGURATION_DEBUG
+import EXDevLauncher
+import EXDevMenu
+#endif
 
 @objc(ExpoModulesProvider)
 public class ExpoModulesProvider: ModulesProvider {
   public override func getModuleClasses() -> [AnyModule.Type] {
     return [
       ImagePickerModule.self,
-      KeepAwakeModule.self
+      KeepAwakeModule.self,
+      ExpoSystemUIModule.self
     ]
   }
 
   public override func getAppDelegateSubscribers() -> [ExpoAppDelegateSubscriber.Type] {
+    #if EXPO_CONFIGURATION_DEBUG
+    return [
+      FacebookAppDelegate.self,
+      ExpoDevLauncherAppDelegateSubscriber.self
+    ]
+    #else
     return [
       FacebookAppDelegate.self
     ]
+    #endif
   }
 
   public override func getReactDelegateHandlers() -> [ExpoReactDelegateHandlerTupleType] {
+    #if EXPO_CONFIGURATION_DEBUG
+    return [
+      (packageName: "expo-dev-launcher", handler: ExpoDevLauncherReactDelegateHandler.self),
+      (packageName: "expo-dev-menu", handler: ExpoDevMenuReactDelegateHandler.self)
+    ]
+    #else
     return [
     ]
+    #endif
   }
 }
