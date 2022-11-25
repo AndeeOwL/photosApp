@@ -34,6 +34,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="com.andeeowl.photosApp"/>
+        <data android:scheme="exp+photosapp"/>
         <data android:scheme="fb620561843086574"/>
       </intent-filter>
     </activity>

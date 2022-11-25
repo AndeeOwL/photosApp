@@ -2,6 +2,7 @@
   <string name="app_name">photosApp</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="expo_system_ui_user_interface_style" translatable="false">light</string>
   <string name="facebook_app_id">620561843086574</string>
   <string name="facebook_client_token">70fb99e6575a88a3e26807d6719d5809</string>
   <string name="fb_login_protocol_scheme">fb620561843086574</string>
