@@ -89,8 +89,7 @@ export function insertUser(username, password) {
           resolve(result);
         },
         (_, error) => {
-          Alert.alert("username exist");
-          reject(error);
+          reject("username exists");
         }
       );
     });
@@ -116,31 +115,6 @@ export function fetchUser(username) {
         (_, error) => {
           Alert.alert("Invalid username");
           reject(error);
-        }
-      );
-    });
-  });
-  return promise;
-}
-
-export function databaseLoginWithFaceBook(username, password) {
-  const promise = new Promise((resolve, reject) => {
-    database.transaction((tx) => {
-      tx.executeSql(
-        `SELECT * FROM users WHERE username LIKE '${username}'`,
-        [],
-        (_, result) => {
-          const user = [];
-          for (const dp of result.rows._array) {
-            user.push(dp.id);
-            user.push(dp.username);
-            user.push(dp.password);
-          }
-          resolve(user);
-        },
-        (_, error) => {
-          insertUser(username, password);
-          fetchUser(username);
         }
       );
     });

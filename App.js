@@ -7,6 +7,7 @@ import Login from "./screens/Login";
 import Register from "./screens/Register";
 import PhotoPreview from "./screens/PhotoPreview";
 import { init } from "./util/database";
+import { Button, StyleSheet } from "react-native";
 
 const Stack = createStackNavigator();
 

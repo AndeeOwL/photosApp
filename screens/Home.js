@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -7,10 +8,12 @@ import {
 } from "expo-image-picker";
 import { useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { LoginButton } from "react-native-fbsdk-next";
 import PhotosList from "../components/PhotosList";
 import { insertPhoto } from "../util/database";
 
 function Home({ route }) {
+  const navigation = useNavigation();
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
@@ -50,9 +53,14 @@ function Home({ route }) {
     await insertPhoto(image.assets[0].uri, route.params.id);
   }
 
+  const navigateLogin = () => {
+    navigation.navigate("Login");
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{route.params.username} photos app</Text>
+      <Text style={styles.title}>{route.params.username}</Text>
+      <Text style={styles.secondTitle}>photosApp</Text>
       <PhotosList id={route.params.id} />
       <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
@@ -62,6 +70,21 @@ function Home({ route }) {
           <Button title='Upload Photo' onPress={uploadPhotoHandler} />
         </View>
       </View>
+      <LoginButton
+        marginBottom={50}
+        onLoginFinished={(error, result) => {
+          if (error) {
+            console.log("login has error: " + result.error);
+          } else if (result.isCancelled) {
+            console.log("login is cancelled.");
+          } else {
+            AccessToken.getCurrentAccessToken().then((data) => {
+              console.log(data.accessToken.toString());
+            });
+          }
+        }}
+        onLogoutFinished={navigateLogin}
+      />
     </View>
   );
 }
@@ -80,11 +103,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 50,
   },
+  secondTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+  },
   buttonContainer: {
     flexDirection: "row",
   },
   buttons: {
     marginHorizontal: 10,
+  },
+  logoutButton: {
     marginBottom: 50,
   },
 });

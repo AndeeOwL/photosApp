@@ -2,12 +2,13 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import {
+  AccessToken,
   AuthenticationToken,
   LoginButton,
   Profile,
 } from "react-native-fbsdk-next";
 import LoginForm from "../components/LoginForm";
-import { databaseLoginWithFaceBook, fetchUser } from "../util/database";
+import { fetchUser } from "../util/database";
 
 function Login() {
   const [username, setUsername] = useState();
@@ -46,23 +47,16 @@ function Login() {
   const loginWithFaceBook = () => {
     Profile.getCurrentProfile().then(async function (currentProfile) {
       if (currentProfile) {
-        const user = await databaseLoginWithFaceBook(
+        console.log(currentProfile);
+        const user = await fetchUser(
           currentProfile.name,
           currentProfile.userID
         );
+        console.log(user);
         navigation.navigate("Home", {
           id: user[0],
           username: user[1],
         });
-        // } catch {
-        //   await insertUser(currentProfile.name, currentProfile.userID).then(
-        //     function () {
-        //       navigation.navigate("Home", {
-        //         id: user[0],
-        //         username: user[1],
-        //       });
-        //     }
-        //   );
       }
     });
   };
@@ -83,22 +77,13 @@ function Login() {
           } else if (result.isCancelled) {
             console.log("login is cancelled.");
           } else {
-            if (Platform.OS === "ios") {
-              AuthenticationToken.getAuthenticationTokenIOS().then((data) => {
-                console.log(data?.authenticationToken);
-              });
-              loginWithFaceBook();
-            } else {
-              AccessToken.getCurrentAccessToken().then((data) => {
-                console.log(data?.accessToken.toString());
-                loginWithFaceBook();
-              });
-            }
+            AccessToken.getCurrentAccessToken().then((data) => {
+              console.log(data.accessToken.toString());
+            });
+            loginWithFaceBook();
           }
         }}
         onLogoutFinished={() => console.log("logout.")}
-        loginTrackingIOS={"limited"}
-        nonceIOS={"my_nonce"}
       />
     </View>
   );
