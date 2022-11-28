@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import RegisterForm from "../components/RegisterForm";
-import { fetchUser, insertUser } from "../util/database";
+import { insertUser } from "../util/database";
 
 function Register({ navigation }) {
   const [username, setUsername] = useState();
@@ -21,11 +21,6 @@ function Register({ navigation }) {
   };
 
   const navigateLogin = async () => {
-    // const user = await fetchUser(username);
-    // if (username === user[0]) {
-    //   Alert.alert("Username already exist");
-    //   return;
-    // }
     if (password !== repeatPassword) {
       Alert.alert("Passwords does not match");
       return;

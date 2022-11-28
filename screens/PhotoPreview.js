@@ -1,4 +1,4 @@
-import { Alert, Button, Image, ScrollView, StyleSheet } from "react-native";
+import { Button, Image, ScrollView, StyleSheet } from "react-native";
 import { ShareDialog } from "react-native-fbsdk-next";
 import { windowHeight, windowWidth } from "../constants/dimensions";
 
