@@ -6,7 +6,6 @@ import {
   launchImageLibraryAsync,
   MediaTypeOptions,
 } from "expo-image-picker";
-import { useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import { LoginButton } from "react-native-fbsdk-next";
 import PhotosList from "../components/PhotosList";
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 36,
+    fontSize: 26,
     fontWeight: "bold",
     marginTop: 50,
   },

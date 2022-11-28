@@ -1,19 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
-import {
-  AccessToken,
-  AuthenticationToken,
-  LoginButton,
-  Profile,
-} from "react-native-fbsdk-next";
+import { useEffect, useState } from "react";
+import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { AccessToken, LoginButton, Profile } from "react-native-fbsdk-next";
 import LoginForm from "../components/LoginForm";
-import { fetchUser } from "../util/database";
+import { fetchUser, insertUser } from "../util/database";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
 
 function Login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [googleAccessToken, setGoogleAccessToken] = useState(null);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: "web-id",
+    iosClientId: "ios-id",
+    androidClientId: "android-id",
+  });
   const navigation = useNavigation();
+
+  WebBrowser.maybeCompleteAuthSession();
 
   const userInputHandler = (enteredText) => {
     setUsername(enteredText);
@@ -38,6 +43,36 @@ function Login() {
       id: user[0],
       username: user[1],
     });
+  };
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      setGoogleAccessToken(response.authentication.accessToken);
+      googleAccessToken && fetchUserInformation();
+    }
+  }, [response, googleAccessToken]);
+
+  const fetchUserInformation = async () => {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+        Authorization: `Bearer ${googleAccessToken}`,
+      },
+    });
+    const useInfo = await response.json();
+    const user = await fetchUser(useInfo.email, useInfo.id);
+    console.log(user);
+    if (user.len) {
+      navigation.navigate("Home", {
+        id: user[0],
+        username: user[1],
+      });
+    } else {
+      insertUser(useInfo.email, useInfo.id);
+      navigation.navigate("Home", {
+        id: user[0],
+        username: user[1],
+      });
+    }
   };
 
   const navigateRegister = () => {
@@ -85,6 +120,16 @@ function Login() {
         }}
         onLogoutFinished={() => console.log("logout.")}
       />
+      <View style={styles.googleLoginButton}>
+        <Button
+          color='white'
+          title='Login with Google'
+          disabled={!request}
+          onPress={() => {
+            promptAsync();
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -102,5 +147,10 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     marginTop: 50,
+  },
+  googleLoginButton: {
+    backgroundColor: "red",
+    margin: 10,
+    paddingHorizontal: 15,
   },
 });

@@ -7,11 +7,12 @@ import Login from "./screens/Login";
 import Register from "./screens/Register";
 import PhotoPreview from "./screens/PhotoPreview";
 import { init } from "./util/database";
-import { Button, StyleSheet } from "react-native";
+import { LogBox } from "react-native";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  LogBox.ignoreLogs(["source.uri"]);
   useEffect(() => {
     init();
   }, []);

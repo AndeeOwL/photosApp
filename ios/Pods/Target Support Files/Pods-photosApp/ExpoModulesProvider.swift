@@ -6,9 +6,14 @@
  */
 
 import ExpoModulesCore
+import ExpoCrypto
+import EASClient
 import ExpoImagePicker
 import ExpoKeepAwake
+import ExpoRandom
 import ExpoSystemUI
+import EXUpdates
+import ExpoWebBrowser
 import ExpoAdapterFBSDKNext
 #if EXPO_CONFIGURATION_DEBUG
 import EXDevLauncher
@@ -19,20 +24,26 @@ import EXDevMenu
 public class ExpoModulesProvider: ModulesProvider {
   public override func getModuleClasses() -> [AnyModule.Type] {
     return [
+      CryptoModule.self,
+      EASClientModule.self,
       ImagePickerModule.self,
       KeepAwakeModule.self,
-      ExpoSystemUIModule.self
+      RandomModule.self,
+      ExpoSystemUIModule.self,
+      WebBrowserModule.self
     ]
   }
 
   public override func getAppDelegateSubscribers() -> [ExpoAppDelegateSubscriber.Type] {
     #if EXPO_CONFIGURATION_DEBUG
     return [
+      ExpoUpdatesAppDelegateSubscriber.self,
       FacebookAppDelegate.self,
       ExpoDevLauncherAppDelegateSubscriber.self
     ]
     #else
     return [
+      ExpoUpdatesAppDelegateSubscriber.self,
       FacebookAppDelegate.self
     ]
     #endif
@@ -41,11 +52,13 @@ public class ExpoModulesProvider: ModulesProvider {
   public override func getReactDelegateHandlers() -> [ExpoReactDelegateHandlerTupleType] {
     #if EXPO_CONFIGURATION_DEBUG
     return [
+      (packageName: "expo-updates", handler: ExpoUpdatesReactDelegateHandler.self),
       (packageName: "expo-dev-launcher", handler: ExpoDevLauncherReactDelegateHandler.self),
       (packageName: "expo-dev-menu", handler: ExpoDevMenuReactDelegateHandler.self)
     ]
     #else
     return [
+      (packageName: "expo-updates", handler: ExpoUpdatesReactDelegateHandler.self)
     ]
     #endif
   }
