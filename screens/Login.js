@@ -60,17 +60,19 @@ function Login() {
     });
     const useInfo = await response.json();
     const user = await fetchUser(useInfo.email, useInfo.id);
-    console.log(user);
-    if (user.length() === 3) {
+    if (user.length === 3) {
       navigation.navigate("Home", {
         id: user[0],
         username: user[1],
       });
     } else {
       insertUser(useInfo.email, useInfo.id);
+    }
+    const insertedUser = await fetchUser(useInfo.email, useInfo.id);
+    if (insertedUser.length === 3) {
       navigation.navigate("Home", {
-        id: user[0],
-        username: user[1],
+        id: insertedUser[0],
+        username: insertedUser[1],
       });
     }
   };
@@ -82,16 +84,28 @@ function Login() {
   const loginWithFaceBook = () => {
     Profile.getCurrentProfile().then(async function (currentProfile) {
       if (currentProfile) {
-        console.log(currentProfile);
         const user = await fetchUser(
           currentProfile.name,
           currentProfile.userID
         );
-        console.log(user);
-        navigation.navigate("Home", {
-          id: user[0],
-          username: user[1],
-        });
+        if (user.length === 3) {
+          navigation.navigate("Home", {
+            id: user[0],
+            username: user[1],
+          });
+        } else {
+          insertUser(useInfo.email, useInfo.id);
+        }
+        const insertedUser = await fetchUser(
+          currentProfile.name,
+          currentProfile.userID
+        );
+        if (insertedUser.length === 3) {
+          navigation.navigate("Home", {
+            id: insertedUser[0],
+            username: insertedUser[1],
+          });
+        }
       }
     });
   };
