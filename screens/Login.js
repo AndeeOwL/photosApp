@@ -61,7 +61,7 @@ function Login() {
     const useInfo = await response.json();
     const user = await fetchUser(useInfo.email, useInfo.id);
     console.log(user);
-    if (user.len) {
+    if (user.length() === 3) {
       navigation.navigate("Home", {
         id: user[0],
         username: user[1],
