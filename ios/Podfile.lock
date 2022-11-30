@@ -14,6 +14,9 @@ PODS:
     - ExpoModulesCore
   - EXFont (11.0.1):
     - ExpoModulesCore
+  - EXGL (12.0.1):
+    - ExpoModulesCore
+    - React-jsi
   - EXImageLoader (4.0.0):
     - ExpoModulesCore
     - React-Core
@@ -382,6 +385,8 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-view-shot (3.5.0):
+    - React-Core
   - React-perflogger (0.70.5)
   - React-RCTActionSheet (0.70.5):
     - React-Core/RCTActionSheetHeaders (= 0.70.5)
@@ -453,6 +458,10 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
+  - RNSketchCanvas (0.8.0):
+    - React
+  - RNSVG (13.4.0):
+    - React-Core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -464,6 +473,7 @@ DEPENDENCIES:
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
+  - EXGL (from `../node_modules/expo-gl`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
@@ -505,6 +515,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -519,6 +530,8 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSketchCanvas (from `../node_modules/@terrylinla/react-native-sketch-canvas`)"
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -549,6 +562,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
+  EXGL:
+    :path: "../node_modules/expo-gl"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
   EXJSONUtils:
@@ -629,6 +644,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fbsdk-next"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -657,6 +674,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSketchCanvas:
+    :path: "../node_modules/@terrylinla/react-native-sketch-canvas"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -670,6 +691,7 @@ SPEC CHECKSUMS:
   EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
+  EXGL: 5f24aaf2552f784d5d59e960823faf53d120893c
   EXImageLoader: 84b65e6bd9d3345d6fbb3ab936a546c54496a64d
   EXJSONUtils: 09aef2c1fba1a116ca8c73a2c8299aac00d96b43
   EXManifests: 347f49430b63444579aa013f0ad057d16b8d1cc8
@@ -717,6 +739,7 @@ SPEC CHECKSUMS:
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
   react-native-fbsdk-next: c78dede90e3c50ab6936a7d56c43e1a9eb37e25a
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
+  react-native-view-shot: 792829857bbb23a9c8acdad9a640554bdee397a3
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
   React-RCTActionSheet: 05452c3b281edb27850253db13ecd4c5a65bc247
   React-RCTAnimation: 578eebac706428e68466118e84aeacf3a282b4da
@@ -731,6 +754,8 @@ SPEC CHECKSUMS:
   ReactCommon: c9246996e73bf75a2c6c3ff15f1e16707cdc2da9
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNSketchCanvas: 9c28adb5381543ed55cc98ce6de46479cb3cb12c
+  RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
 
 PODFILE CHECKSUM: 1bb0627679927ff5b6da27bd4180b4c31241bd13

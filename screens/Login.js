@@ -88,6 +88,7 @@ function Login() {
           currentProfile.name,
           currentProfile.userID
         );
+        console.log(user);
         if (user.length === 3) {
           navigation.navigate("Home", {
             id: user[0],

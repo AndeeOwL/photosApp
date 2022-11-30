@@ -8,6 +8,7 @@ import Register from "./screens/Register";
 import PhotoPreview from "./screens/PhotoPreview";
 import { init } from "./util/database";
 import { LogBox } from "react-native";
+import Draw from "./screens/Draw";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,17 @@ export default function App() {
           <Stack.Screen
             name='PhotoPreview'
             component={PhotoPreview}
+            options={{
+              title: "",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: "aqua",
+              },
+            }}
+          />
+          <Stack.Screen
+            name='Draw'
+            component={Draw}
             options={{
               title: "",
               headerShown: true,

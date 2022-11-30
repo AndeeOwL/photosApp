@@ -49,6 +49,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>EXGL.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>EXImageLoader.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -204,7 +209,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RNSVG.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>RNScreens.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RNSketchCanvas.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -385,6 +400,11 @@
 			<false/>
 		</dict>
 		<key>react-native-safe-area-context.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>react-native-view-shot.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

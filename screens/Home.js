@@ -56,6 +56,13 @@ function Home({ route }) {
     navigation.navigate("Login");
   };
 
+  const navigateDraw = () => {
+    navigation.navigate("Draw", {
+      id: route.params.id,
+      username: route.params.username,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{route.params.username}</Text>
@@ -67,6 +74,9 @@ function Home({ route }) {
         </View>
         <View style={styles.buttons}>
           <Button title='Upload Photo' onPress={uploadPhotoHandler} />
+        </View>
+        <View style={styles.buttons}>
+          <Button title='Draw Photo' onPress={navigateDraw} />
         </View>
       </View>
       <LoginButton
