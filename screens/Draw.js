@@ -10,14 +10,19 @@ import { insertPhoto } from "../util/database";
 function Draw({ route }) {
   const navigation = useNavigation();
   const ref = useRef();
+
   const mySaveFx = async () => {
     const signatureResult = await takeSnapshotAsync(ref, {
       result: "tmpfile",
       quality: 0.5,
       format: "png",
     });
-
+    console.log(signatureResult + " id:" + route.params.id);
     insertPhoto(signatureResult, route.params.id);
+    navigation.navigate("Home", {
+      id: route.params.id,
+      username: route.params.username,
+    });
   };
 
   return (
@@ -39,16 +44,7 @@ function Draw({ route }) {
         />
       </ViewShot>
       <View marginBottom={25}>
-        <Button
-          onPress={() => {
-            mySaveFx;
-            navigation.navigate("Home", {
-              id: route.params.id,
-              username: route.params.username,
-            });
-          }}
-          title={"Save drawing"}
-        />
+        <Button onPress={mySaveFx} title={"Save drawing"} />
       </View>
     </>
   );

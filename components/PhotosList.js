@@ -25,7 +25,7 @@ function PhotosList(props) {
       </View>
     );
   }
-  console.log(loadedImages);
+
   return (
     <FlatList
       style={styles.listContainer}
