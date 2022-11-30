@@ -88,25 +88,19 @@ function Login() {
           currentProfile.name,
           currentProfile.userID
         );
-        console.log(user);
         if (user.length === 3) {
           navigation.navigate("Home", {
             id: user[0],
             username: user[1],
           });
         } else {
-          insertUser(useInfo.email, useInfo.id);
+          insertUser(user.name, user.id);
         }
-        const insertedUser = await fetchUser(
-          currentProfile.name,
-          currentProfile.userID
-        );
-        if (insertedUser.length === 3) {
-          navigation.navigate("Home", {
-            id: insertedUser[0],
-            username: insertedUser[1],
-          });
-        }
+
+        navigation.navigate("Home", {
+          id: currentProfile.userID,
+          username: currentProfile.name,
+        });
       }
     });
   };
