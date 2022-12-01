@@ -4024,6 +4024,13 @@
     "qs" "^6.9.1"
     "url-parse" "^1.5.9"
 
+"expo-mail-composer@^12.0.0":
+  "integrity" "sha512-Q1ko7D+knF1nOF2VKPc9AESowQaG7ta435PWjP0tKu33rmG4EzIzjHfDsCxMoQ9uiqJEwc1mdx/MOQpJlGEtLg=="
+  "resolved" "https://registry.npmjs.org/expo-mail-composer/-/expo-mail-composer-12.0.0.tgz"
+  "version" "12.0.0"
+  dependencies:
+    "query-string" "^6.2.0"
+
 "expo-manifests@~0.4.0":
   "integrity" "sha512-IdZjIYDxx4nH0Gb3X4T4/2YknmR/jSLxymAS0m7SfJ9V7Vlu/y0p3lNwUys9/JzihxX9PDIuOi/Y4/uqL6TlXg=="
   "resolved" "https://registry.npmjs.org/expo-manifests/-/expo-manifests-0.4.0.tgz"
@@ -7114,6 +7121,16 @@
     "decode-uri-component" "^0.2.0"
     "object-assign" "^4.1.0"
     "strict-uri-encode" "^1.0.0"
+
+"query-string@^6.2.0":
+  "integrity" "sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw=="
+  "resolved" "https://registry.npmjs.org/query-string/-/query-string-6.14.1.tgz"
+  "version" "6.14.1"
+  dependencies:
+    "decode-uri-component" "^0.2.0"
+    "filter-obj" "^1.1.0"
+    "split-on-first" "^1.0.0"
+    "strict-uri-encode" "^2.0.0"
 
 "query-string@^7.0.0":
   "integrity" "sha512-MplouLRDHBZSG9z7fpuAAcI7aAYjDLhtsiVZsevsfaHWDS2IDdORKbSd1kWUA+V4zyva/HZoSfpwnYMMQDhb0w=="

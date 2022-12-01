@@ -9,6 +9,7 @@ import PhotoPreview from "./screens/PhotoPreview";
 import { init } from "./util/database";
 import { LogBox } from "react-native";
 import Draw from "./screens/Draw";
+import Email from "./screens/Email";
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,17 @@ export default function App() {
           <Stack.Screen
             name='Draw'
             component={Draw}
+            options={{
+              title: "",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: "aqua",
+              },
+            }}
+          />
+          <Stack.Screen
+            name='Email'
+            component={Email}
             options={{
               title: "",
               headerShown: true,
