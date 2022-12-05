@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -6,15 +6,27 @@ import {
   launchImageLibraryAsync,
   MediaTypeOptions,
 } from "expo-image-picker";
+import { useEffect, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
-import { LoginButton } from "react-native-fbsdk-next";
 import PhotosList from "../components/PhotosList";
-import { insertPhoto } from "../util/database";
+import { fetchPhotos, insertPhoto } from "../util/database";
 
 function Home({ route }) {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [loadedImages, setLoadedImages] = useState([""]);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
+
+  useEffect(() => {
+    async function loadPhotos() {
+      const photoList = await fetchPhotos(route.params.id);
+      setLoadedImages(photoList);
+    }
+    if (isFocused) {
+      loadPhotos();
+    }
+  }, [isFocused]);
 
   async function verifyPermissions() {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
@@ -29,35 +41,49 @@ function Home({ route }) {
   }
 
   async function takePhotoHandler() {
-    const hasPermission = await verifyPermissions();
-    if (!hasPermission) {
-      return;
+    if (loadedImages.length < 10) {
+      const hasPermission = await verifyPermissions();
+      if (!hasPermission) {
+        return;
+      }
+      const photo = await launchCameraAsync({
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 0.5,
+      });
+      await insertPhoto(photo.assets[0].uri, route.params.id);
+    } else {
+      Alert.alert("Free space empty buy subscription to add more photos");
     }
-    const photo = await launchCameraAsync({
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5,
-    });
-    await insertPhoto(photo.assets[0].uri, route.params.id);
   }
 
   async function uploadPhotoHandler() {
-    const image = await launchImageLibraryAsync({
-      mediaTypes: MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5,
-    });
-
-    await insertPhoto(image.assets[0].uri, route.params.id);
+    if (loadedImages.length < 10) {
+      const image = await launchImageLibraryAsync({
+        mediaTypes: MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 0.5,
+      });
+      await insertPhoto(image.assets[0].uri, route.params.id);
+    } else {
+      Alert.alert("Free space empty buy subscription to add more photos");
+    }
   }
 
-  const navigateLogin = () => {
-    navigation.navigate("Login");
+  const navigateDraw = () => {
+    if (loadedImages.length < 10) {
+      navigation.navigate("Draw", {
+        id: route.params.id,
+        username: route.params.username,
+      });
+    } else {
+      Alert.alert("Free space empty buy subscription to add more photos");
+    }
   };
 
-  const navigateDraw = () => {
-    navigation.navigate("Draw", {
+  const navigatePayments = () => {
+    navigation.navigate("Payments", {
       id: route.params.id,
       username: route.params.username,
     });
@@ -67,7 +93,7 @@ function Home({ route }) {
     <View style={styles.container}>
       <Text style={styles.title}>{route.params.username}</Text>
       <Text style={styles.secondTitle}>photosApp</Text>
-      <PhotosList id={route.params.id} />
+      <PhotosList images={loadedImages} />
       <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
           <Button title='Take Photo' onPress={takePhotoHandler} />
@@ -79,21 +105,9 @@ function Home({ route }) {
           <Button title='Draw Photo' onPress={navigateDraw} />
         </View>
       </View>
-      <LoginButton
-        marginBottom={50}
-        onLoginFinished={(error, result) => {
-          if (error) {
-            console.log("login has error: " + result.error);
-          } else if (result.isCancelled) {
-            console.log("login is cancelled.");
-          } else {
-            AccessToken.getCurrentAccessToken().then((data) => {
-              console.log(data.accessToken.toString());
-            });
-          }
-        }}
-        onLogoutFinished={navigateLogin}
-      />
+      <View style={styles.subButton}>
+        <Button title='Subscribe' onPress={navigatePayments} />
+      </View>
     </View>
   );
 }
@@ -122,7 +136,7 @@ const styles = StyleSheet.create({
   buttons: {
     marginHorizontal: 10,
   },
-  logoutButton: {
-    marginBottom: 50,
+  subButton: {
+    marginBottom: 25,
   },
 });

@@ -10,6 +10,7 @@ import ExpoCrypto
 import EASClient
 import ExpoImagePicker
 import ExpoKeepAwake
+import ExpoMailComposer
 import ExpoRandom
 import ExpoSystemUI
 import EXUpdates
@@ -28,6 +29,7 @@ public class ExpoModulesProvider: ModulesProvider {
       EASClientModule.self,
       ImagePickerModule.self,
       KeepAwakeModule.self,
+      MailComposerModule.self,
       RandomModule.self,
       ExpoSystemUIModule.self,
       WebBrowserModule.self

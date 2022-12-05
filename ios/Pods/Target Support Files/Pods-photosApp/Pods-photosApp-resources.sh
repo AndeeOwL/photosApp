@@ -100,6 +100,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/EXUpdates/EXUpdates.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe3DS2.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCore.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnections.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/StripeUICore/StripeUICore.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-launcher/EXDevLauncher.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-menu/EXDevMenu.bundle"
 fi
@@ -107,6 +112,11 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/EXUpdates/EXUpdates.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe3DS2.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCore.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnections.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/StripeUICore/StripeUICore.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
