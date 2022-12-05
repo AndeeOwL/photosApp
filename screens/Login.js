@@ -42,6 +42,7 @@ function Login() {
     navigation.navigate("Home", {
       id: user[0],
       username: user[1],
+      subscribed: user[3],
     });
   };
 
@@ -64,15 +65,17 @@ function Login() {
       navigation.navigate("Home", {
         id: user[0],
         username: user[1],
+        subscribed: user[3],
       });
     } else {
-      insertUser(useInfo.email, useInfo.id);
+      insertUser(useInfo.email, useInfo.id, false);
     }
     const insertedUser = await fetchUser(useInfo.email, useInfo.id);
     if (insertedUser.length === 3) {
       navigation.navigate("Home", {
         id: insertedUser[0],
         username: insertedUser[1],
+        subscribed: insertedUser[3],
       });
     }
   };
@@ -92,6 +95,7 @@ function Login() {
           navigation.navigate("Home", {
             id: user[0],
             username: user[1],
+            subscribed: user[3],
           });
         } else {
           insertUser(user.name, user.id);
@@ -100,6 +104,7 @@ function Login() {
         navigation.navigate("Home", {
           id: currentProfile.userID,
           username: currentProfile.name,
+          subscribed: user[3],
         });
       }
     });

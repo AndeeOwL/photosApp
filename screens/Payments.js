@@ -10,6 +10,7 @@ import {
 } from "@stripe/stripe-react-native";
 import { useEffect } from "react";
 import { Alert, Platform, View } from "react-native";
+import { subscribe } from "../util/database";
 
 function Payments({ route }) {
   const { isGooglePaySupported, initGooglePay } = useGooglePay();
@@ -66,6 +67,7 @@ function Payments({ route }) {
       Alert.alert(error.code, error.message);
       return;
     } else if (paymentMethod) {
+      subscribe(route.params.id, true);
       Alert.alert(
         "Success",
         `The payment method was created successfully. paymentMethodId: ${paymentMethod.id}`

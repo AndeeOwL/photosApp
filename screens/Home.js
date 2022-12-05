@@ -41,7 +41,7 @@ function Home({ route }) {
   }
 
   async function takePhotoHandler() {
-    if (loadedImages.length < 10) {
+    if (loadedImages.length < 10 || route.params.subscribed) {
       const hasPermission = await verifyPermissions();
       if (!hasPermission) {
         return;
@@ -58,7 +58,7 @@ function Home({ route }) {
   }
 
   async function uploadPhotoHandler() {
-    if (loadedImages.length < 10) {
+    if (loadedImages.length < 10 || route.params.subscribed) {
       const image = await launchImageLibraryAsync({
         mediaTypes: MediaTypeOptions.Images,
         allowsEditing: true,

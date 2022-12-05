@@ -10,7 +10,8 @@ export function init() {
         `CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY NOT NULL,
         username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        subscribed BOOLEAN NOT NULL,
     )`,
         [],
         () => {
@@ -79,12 +80,30 @@ export function fetchPhotos(id) {
   return promise;
 }
 
-export function insertUser(username, password) {
+export function subscribe(id, subscribed) {
   const promise = new Promise((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO users (username,password) VALUES (?,?)`,
-        [username, password],
+        `UPDATE users SET subscribed = ${subscribed} WHERE id LIKE '${id}'`,
+        [],
+        (_, result) => {
+          resolve(photos);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+  return promise;
+}
+
+export function insertUser(username, password, subscribed) {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `INSERT INTO users (username,password,subsribed) VALUES (?,?,?)`,
+        [username, password, subscribed],
         (_, result) => {
           resolve(result);
         },
@@ -109,6 +128,7 @@ export function fetchUser(username) {
             user.push(dp.id);
             user.push(dp.username);
             user.push(dp.password);
+            user.push(dp.subscribed);
           }
           resolve(user);
         },

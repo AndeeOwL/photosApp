@@ -26,7 +26,7 @@ function Register({ navigation }) {
       return;
     }
 
-    await insertUser(username, password);
+    await insertUser(username, password, false);
     navigation.navigate("Login");
   };
 
