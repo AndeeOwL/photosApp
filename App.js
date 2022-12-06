@@ -24,9 +24,9 @@ export default function App() {
   useEffect(() => {
     initStripe({
       publishableKey:
-        "pk_test_51GiLv8F540OZ8hRRLPioJ3NouApToX5xYVC1YrDPmiShigYYZm8VXBYpv7ERfBPYKzab58CgLOjzopoWCiB432aJ00edTXox9H",
+        "pk_test_51MBzQlDch9HJ0Xyveqow9hZlYE5cTdVoR7doXYq0BGl7IDfqgok3QnCFcOAmVm98HRGnWTTA5Ir7ONOi0e25LPJN00bHCDuuUR",
       merchantIdentifier: "merchant.com.photosApp",
-      urlScheme: "your-url-scheme",
+      urlScheme: "https://buy.stripe.com/test_fZe8ze52C4zm4hy6oo",
     });
   }, []);
 

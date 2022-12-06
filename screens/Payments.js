@@ -1,12 +1,9 @@
 import {
-  CardField,
   useGooglePay,
   GooglePayButton,
   createGooglePayPaymentMethod,
   ApplePayButton,
   useApplePay,
-  confirmApplePayPayment,
-  presentApplePay,
 } from "@stripe/stripe-react-native";
 import { useEffect } from "react";
 import { Alert, Platform, StyleSheet, Text, View } from "react-native";
@@ -22,7 +19,6 @@ function Payments({ route }) {
       Alert.alert("Google Pay is not supported.");
       return;
     }
-
     const { error } = await initGooglePay({
       testEnv: true,
       merchantName: "Buy subscription",
@@ -35,7 +31,6 @@ function Payments({ route }) {
       existingPaymentMethodRequired: false,
       isEmailRequired: true,
     });
-
     if (error) {
       Alert.alert(error.code, error.message);
       return;
@@ -43,15 +38,18 @@ function Payments({ route }) {
   }, []);
 
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch(`${API_URL}/create-payment-intent`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        currency: "usd",
-      }),
-    });
+    const response = await fetch(
+      `https://buy.stripe.com/test_fZe8ze52C4zm4hy6oo/create-payment-intent`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currency: "bgn",
+        }),
+      }
+    );
     const { clientSecret } = await response.json();
 
     return clientSecret;
@@ -59,8 +57,8 @@ function Payments({ route }) {
 
   const createPaymentMethod = async () => {
     const { error, paymentMethod } = await createGooglePayPaymentMethod({
-      amount: 5,
-      currencyCode: "USD",
+      amount: 10,
+      currencyCode: "BGN",
     });
 
     if (error) {
@@ -76,21 +74,21 @@ function Payments({ route }) {
   };
 
   const pay = async () => {
-    if (!isApplePaySupported) return;
+    if (!isApplePaySupported) {
+      Alert.alert("Apple pay is not supperted");
+    }
 
     const { error } = await presentApplePay({
       cartItems: [
-        { label: "Subscription", amount: "5", paymentType: "Immediate" },
-      ],
-      country: "BUL",
-      currency: "USD",
-      shippingMethods: [
         {
-          amount: "5",
-          identifier: "USD",
+          id: "prod_MvrCJN5lTUaaGD",
+          label: "Subscription",
+          amount: "10",
+          paymentType: "Immediate",
         },
       ],
-      requiredBillingContactFields: ["phoneNumber", "name"],
+      country: "BUL",
+      currency: "BGN",
     });
 
     if (error) {
@@ -104,6 +102,13 @@ function Payments({ route }) {
 
       if (confirmError) {
         Alert.alert("You must confirm the payment to proceed");
+      } else {
+        subscribe(route.params.id, true);
+        Alert.alert("Success", `The payment method was created successfully.`);
+        navigation.navigate("Home", {
+          id: route.params.id,
+          username: route.params.username,
+        });
       }
     }
   };
@@ -112,7 +117,7 @@ function Payments({ route }) {
     <>
       <View style={styles.container}>
         <Text style={styles.text}>
-          Here you can buy your subscription for 5$
+          Here you can buy your subscription for 10 BGN
         </Text>
       </View>
       {Platform.OS === "android" && (
