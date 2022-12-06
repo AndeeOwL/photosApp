@@ -83,7 +83,7 @@ function Home({ route }) {
   };
 
   const navigatePayments = () => {
-    navigation.navigate("Payments", {
+    navigation.navigate("PaymentScreen", {
       id: route.params.id,
       username: route.params.username,
     });

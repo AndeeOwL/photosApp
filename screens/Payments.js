@@ -56,7 +56,6 @@ function Payments({ route }) {
         currency: "bgn",
       }),
     });
-    console.log(response);
     const { clientSecret } = await response.json();
 
     return clientSecret;
@@ -110,14 +109,14 @@ function Payments({ route }) {
 
       if (confirmError) {
         Alert.alert("You must confirm the payment to proceed");
-      } else {
-        subscribe(route.params.id, true);
-        Alert.alert("Success", `The payment method was created successfully.`);
-        navigation.navigate("Home", {
-          id: route.params.id,
-          username: route.params.username,
-        });
       }
+
+      subscribe(route.params.id, true);
+      Alert.alert("Success", `The payment method was created successfully.`);
+      navigation.navigate("Home", {
+        id: route.params.id,
+        username: route.params.username,
+      });
     }
   };
 
@@ -129,7 +128,7 @@ function Payments({ route }) {
         </Text>
       </View>
       {Platform.OS === "android" && (
-        <View style={styles.payButton}>
+        <View>
           <GooglePayButton
             type='standard'
             onPress={createPaymentMethod}
@@ -141,7 +140,7 @@ function Payments({ route }) {
         </View>
       )}
       {Platform.OS === "ios" && (
-        <View style={styles.payButton}>
+        <View>
           {isApplePaySupported && (
             <ApplePayButton
               onPress={pay}
@@ -164,14 +163,12 @@ export default Payments;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 250,
+    marginBottom: 25,
   },
   text: {
     fontSize: 32,
-  },
-  payButton: {
-    marginBottom: 50,
   },
 });
