@@ -14,42 +14,49 @@ function Payments({ route }) {
   const { presentApplePay, confirmApplePayPayment, isApplePaySupported } =
     useApplePay();
 
-  useEffect(async () => {
-    if (!(await isGooglePaySupported({ testEnv: true }))) {
-      Alert.alert("Google Pay is not supported.");
-      return;
-    }
-    const { error } = await initGooglePay({
-      testEnv: true,
-      merchantName: "Buy subscription",
-      countryCode: "BUL",
-      billingAddressConfig: {
-        format: "FULL",
-        isPhoneNumberRequired: true,
-        isRequired: false,
-      },
-      existingPaymentMethodRequired: false,
-      isEmailRequired: true,
-    });
-    if (error) {
-      Alert.alert(error.code, error.message);
-      return;
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      const checkGooglePaySupport = async () => {
+        if (!(await isGooglePaySupported({ testEnv: true }))) {
+          Alert.alert("Google Pay is not supported.");
+          return;
+        }
+      };
+
+      const initGPay = async () => {
+        const { error } = await initGooglePay({
+          testEnv: true,
+          merchantName: "Buy subscription",
+          countryCode: "BUL",
+          billingAddressConfig: {
+            format: "FULL",
+            isPhoneNumberRequired: true,
+            isRequired: false,
+          },
+          existingPaymentMethodRequired: false,
+          isEmailRequired: true,
+        });
+        if (error) {
+          Alert.alert(error.code, error.message);
+          return;
+        }
+      };
+      checkGooglePaySupport();
+      initGPay();
     }
   }, []);
 
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch(
-      `https://buy.stripe.com/test_fZe8ze52C4zm4hy6oo/create-payment-intent`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          currency: "bgn",
-        }),
-      }
-    );
+    const response = await fetch(`http://localhost:8000/payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        currency: "bgn",
+      }),
+    });
+    console.log(response);
     const { clientSecret } = await response.json();
 
     return clientSecret;
@@ -95,6 +102,7 @@ function Payments({ route }) {
       Alert.alert("Something went wrong try again !");
     } else {
       const clientSecret = await fetchPaymentIntentClientSecret();
+      console.log(clientSecret);
 
       const { error: confirmError } = await confirmApplePayPayment(
         clientSecret
