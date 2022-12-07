@@ -2,23 +2,15 @@ import { useNavigation } from "@react-navigation/native";
 import ExpoDraw from "expo-draw";
 import { useRef } from "react";
 import { Button, View } from "react-native";
-import ViewShot, {
-  captureRef as takeSnapshotAsync,
-} from "react-native-view-shot";
-import { insertPhoto } from "../util/database";
+import { saveDrawing } from "../services/drawService";
+import ViewShot from "react-native-view-shot";
 
 function Draw({ route }) {
   const navigation = useNavigation();
   const ref = useRef();
 
   const mySaveFx = async () => {
-    const signatureResult = await takeSnapshotAsync(ref, {
-      result: "tmpfile",
-      quality: 0.5,
-      format: "png",
-    });
-    console.log(signatureResult + " id:" + route.params.id);
-    insertPhoto(signatureResult, route.params.id);
+    await saveDrawing(ref);
     navigation.navigate("Home", {
       id: route.params.id,
       username: route.params.username,

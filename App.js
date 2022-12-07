@@ -11,7 +11,6 @@ import { LogBox } from "react-native";
 import Draw from "./screens/Draw";
 import Email from "./screens/Email";
 import { initStripe } from "@stripe/stripe-react-native";
-import Payments from "./screens/Payments";
 import PaymentScreen from "./screens/PaymentScreen";
 
 const Stack = createStackNavigator();
@@ -93,17 +92,6 @@ export default function App() {
           <Stack.Screen
             name='PaymentScreen'
             component={PaymentScreen}
-            options={{
-              title: "",
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: "aqua",
-              },
-            }}
-          />
-          <Stack.Screen
-            name='Payments'
-            component={Payments}
             options={{
               title: "",
               headerShown: true,

@@ -6,6 +6,7 @@ import LoginForm from "../components/LoginForm";
 import { fetchUser, insertUser } from "../util/database";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import { loginCheck } from "../services/userService";
 
 function Login() {
   const [username, setUsername] = useState();
@@ -29,16 +30,7 @@ function Login() {
   };
 
   const navigateLogin = async () => {
-    const user = await fetchUser(username);
-    if (username !== user[1]) {
-      Alert.alert("Invalid username");
-      return;
-    }
-    if (password !== user[2]) {
-      Alert.alert("Invalid password");
-      return;
-    }
-
+    const user = await loginCheck(username);
     navigation.navigate("Home", {
       id: user[0],
       username: user[1],
@@ -59,19 +51,19 @@ function Login() {
         Authorization: `Bearer ${googleAccessToken}`,
       },
     });
-    const useInfo = await response.json();
-    const user = await fetchUser(useInfo.email, useInfo.id);
-    if (user.length === 3) {
+    const userInfo = await response.json();
+    const user = await fetchUser(userInfo.email, userInfo.id);
+    if (user.length === 4) {
       navigation.navigate("Home", {
         id: user[0],
         username: user[1],
         subscribed: user[3],
       });
     } else {
-      insertUser(useInfo.email, useInfo.id, false);
+      insertUser(userInfo.email, userInfo.id, false);
     }
-    const insertedUser = await fetchUser(useInfo.email, useInfo.id);
-    if (insertedUser.length === 3) {
+    const insertedUser = await fetchUser(userInfo.email, userInfo.id);
+    if (insertedUser.length === 4) {
       navigation.navigate("Home", {
         id: insertedUser[0],
         username: insertedUser[1],
@@ -91,14 +83,14 @@ function Login() {
           currentProfile.name,
           currentProfile.userID
         );
-        if (user.length === 3) {
+        if (user.length === 4) {
           navigation.navigate("Home", {
             id: user[0],
             username: user[1],
             subscribed: user[3],
           });
         } else {
-          insertUser(user.name, user.id);
+          insertUser(user.name, user.id, false);
         }
 
         navigation.navigate("Home", {

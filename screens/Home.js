@@ -53,7 +53,7 @@ function Home({ route }) {
       });
       await insertPhoto(photo.assets[0].uri, route.params.id);
     } else {
-      Alert.alert("Free space empty buy subscription to add more photos");
+      Alert.alert("Free space full buy subscription to add more photos");
     }
   }
 
@@ -67,7 +67,7 @@ function Home({ route }) {
       });
       await insertPhoto(image.assets[0].uri, route.params.id);
     } else {
-      Alert.alert("Free space empty buy subscription to add more photos");
+      Alert.alert("Free space full buy subscription to add more photos");
     }
   }
 
@@ -78,7 +78,7 @@ function Home({ route }) {
         username: route.params.username,
       });
     } else {
-      Alert.alert("Free space empty buy subscription to add more photos");
+      Alert.alert("Free space full buy subscription to add more photos");
     }
   };
 

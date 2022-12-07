@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
 
 const STRIPE_PK =
@@ -73,6 +71,7 @@ const PaymentView = (props) => {
                         width: 100%;
                         padding: 20px;
                         text-align: center;
+                        font-size: 22px;
                     }
                     .card-errors{
                         color: red;
@@ -87,13 +86,13 @@ const PaymentView = (props) => {
                 </style>
             
             </head>
-            <body>
+            <body style="background-color:aqua;">
                 
                 <!-- product info -->
                 <div class="container-fluid">
                     <div class="row">
                         <div class="products-info">
-                            Product Info: ${product}
+                            Product Info: ${product},
                             Amount: ${amount}
                         </div>
                     </div>
