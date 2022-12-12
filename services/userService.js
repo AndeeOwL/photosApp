@@ -1,3 +1,6 @@
+import { Alert } from "react-native";
+import { fetchUser } from "../util/database";
+
 export async function loginCheck(username) {
   const user = await fetchUser(username);
   if (username !== user[1]) {
