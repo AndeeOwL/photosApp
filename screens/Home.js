@@ -1,15 +1,10 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import {
-  launchCameraAsync,
-  useCameraPermissions,
-  PermissionStatus,
-  launchImageLibraryAsync,
-  MediaTypeOptions,
-} from "expo-image-picker";
+import { useCameraPermissions, PermissionStatus } from "expo-image-picker";
 import { useEffect, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
-import { fetchPhotos, insertPhoto } from "../util/database";
+import { takePhoto, uploadPhoto } from "../services/photoService";
+import { fetchPhotos } from "../util/database";
 
 function Home({ route }) {
   const navigation = useNavigation();
@@ -28,7 +23,7 @@ function Home({ route }) {
     }
   }, [isFocused]);
 
-  async function verifyPermissions() {
+  const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
@@ -38,38 +33,18 @@ function Home({ route }) {
       return false;
     }
     return true;
-  }
+  };
 
-  async function takePhotoHandler() {
-    if (loadedImages.length < 10 || route.params.subscribed) {
-      const hasPermission = await verifyPermissions();
-      if (!hasPermission) {
-        return;
-      }
-      const photo = await launchCameraAsync({
-        allowsEditing: true,
-        aspect: [16, 9],
-        quality: 0.5,
-      });
-      await insertPhoto(photo.assets[0].uri, route.params.id);
-    } else {
-      Alert.alert("Free space full buy subscription to add more photos");
-    }
-  }
+  const takePhotoHandler = async () =>
+    await takePhoto(
+      loadedImages,
+      route.params.subscribed,
+      verifyPermissions,
+      id
+    );
 
-  async function uploadPhotoHandler() {
-    if (loadedImages.length < 10 || route.params.subscribed) {
-      const image = await launchImageLibraryAsync({
-        mediaTypes: MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [16, 9],
-        quality: 0.5,
-      });
-      await insertPhoto(image.assets[0].uri, route.params.id);
-    } else {
-      Alert.alert("Free space full buy subscription to add more photos");
-    }
-  }
+  const uploadPhotoHandler = async () =>
+    await uploadPhoto(loadedImages, route.params.subscribed, route.params.id);
 
   const navigateDraw = () => {
     if (loadedImages.length < 10) {
