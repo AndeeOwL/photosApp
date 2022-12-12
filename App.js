@@ -16,7 +16,7 @@ import PaymentScreen from "./screens/PaymentScreen";
 const Stack = createStackNavigator();
 
 export default function App() {
-  LogBox.ignoreLogs(["source.uri"]);
+  LogBox.ignoreLogs(["source.uri", "Possible", "useEffect", "Internal"]);
   useEffect(() => {
     init();
   }, []);

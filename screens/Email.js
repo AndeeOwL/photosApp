@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-import * as MailComposer from "expo-mail-composer";
-import { composeMail, createRecipients } from "../services/mailService";
+import {
+  checkAvailability,
+  composeMail,
+  createRecipients,
+  showRecipients,
+} from "../services/mailService";
 
 function Email({ route }) {
   const [isAvailable, setIsAvailable] = useState(false);
@@ -10,35 +14,18 @@ function Email({ route }) {
   const [subject, setSubject] = useState(undefined);
   const [body, setBody] = useState(undefined);
 
-  useEffect(() => {
-    async function checkAvailability() {
-      const isMailAvailable = await MailComposer.isAvailableAsync();
-      setIsAvailable(isMailAvailable);
-    }
-    checkAvailability();
+  useEffect(async () => {
+    const availability = await checkAvailability();
+    setIsAvailable(availability);
   }, []);
 
-  const sendMail = async () => {
-    await composeMail(subject, body, recipients, route.params.image);
-  };
+  const sendMail = () =>
+    composeMail(subject, body, recipients, route.params.image);
 
   const addRecipients = () => {
     const newRecipients = createRecipients(recipients, email);
     setRecipients(newRecipients);
     setEmail(undefined);
-  };
-
-  const showRecipients = () => {
-    if (recipients.length === 0) {
-      return <Text style={{ margin: 10, fontSize: 22 }}>No recipients</Text>;
-    }
-    return recipients.map((recipient, index) => {
-      return (
-        <Text style={{ fontSize: 22 }} key={index}>
-          {recipient}
-        </Text>
-      );
-    });
   };
 
   return (
@@ -68,7 +55,7 @@ function Email({ route }) {
         />
       </View>
       <Button title='Add recipient' onPress={addRecipients} />
-      {showRecipients()}
+      {showRecipients(recipients)}
       {isAvailable ? (
         <Button title='Send mail' onPress={sendMail} />
       ) : (
