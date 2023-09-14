@@ -95,7 +95,6 @@ function Login() {
       />
       <View style={styles.googleLoginButton}>
         <Button
-          color='white'
           title='Login with Google'
           disabled={!request}
           onPress={() => {
@@ -122,7 +121,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   googleLoginButton: {
-    backgroundColor: "red",
     margin: 10,
     paddingHorizontal: 15,
   },
