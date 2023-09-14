@@ -10,6 +10,7 @@ function LoginForm(props) {
         onChangeText={props.usernameChange}
       />
       <TextInput
+        secureTextEntry={true}
         style={styles.inputFields}
         placeholder='Password...'
         onChangeText={props.passwordChange}

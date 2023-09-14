@@ -1,4 +1,4 @@
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useCameraPermissions, PermissionStatus } from "expo-image-picker";
 import { useEffect, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
@@ -8,20 +8,18 @@ import { fetchPhotos } from "../util/database";
 
 function Home({ route }) {
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
   const [loadedImages, setLoadedImages] = useState([""]);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
+  const loadPhotos = async () => {
+    const photoList = await fetchPhotos(route.params.id);
+    setLoadedImages(photoList);
+  };
+
   useEffect(() => {
-    async function loadPhotos() {
-      const photoList = await fetchPhotos(route.params.id);
-      setLoadedImages(photoList);
-    }
-    if (isFocused) {
-      loadPhotos();
-    }
-  }, [isFocused]);
+    loadPhotos();
+  }, []);
 
   const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
@@ -35,16 +33,20 @@ function Home({ route }) {
     return true;
   };
 
-  const takePhotoHandler = async () =>
+  const takePhotoHandler = async () => {
     await takePhoto(
       loadedImages,
       route.params.subscribed,
       verifyPermissions,
       id
     );
+    loadPhotos();
+  };
 
-  const uploadPhotoHandler = async () =>
+  const uploadPhotoHandler = async () => {
     await uploadPhoto(loadedImages, route.params.subscribed, route.params.id);
+    loadPhotos();
+  };
 
   const navigateDraw = () => {
     if (loadedImages.length < 10) {
@@ -53,7 +55,7 @@ function Home({ route }) {
         username: route.params.username,
       });
     } else {
-      Alert.alert("Free space full buy subscription to add more photos");
+      Alert.alert("Free space full,buy subscription to add more photos");
     }
   };
 

@@ -20,6 +20,9 @@ variant_for_slice()
   "FBSDKLoginKit.xcframework/ios-arm64")
     echo ""
     ;;
+  "FBSDKLoginKit.xcframework/ios-arm64_x86_64-maccatalyst")
+    echo "maccatalyst"
+    ;;
   "FBSDKLoginKit.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
@@ -28,9 +31,6 @@ variant_for_slice()
     ;;
   "FBSDKLoginKit.xcframework/tvos-arm64_x86_64-simulator")
     echo "simulator"
-    ;;
-  "FBSDKLoginKit.xcframework/ios-arm64_x86_64-maccatalyst")
-    echo "maccatalyst"
     ;;
   esac
 }
@@ -41,6 +41,9 @@ archs_for_slice()
   "FBSDKLoginKit.xcframework/ios-arm64")
     echo "arm64"
     ;;
+  "FBSDKLoginKit.xcframework/ios-arm64_x86_64-maccatalyst")
+    echo "arm64 x86_64"
+    ;;
   "FBSDKLoginKit.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
@@ -48,9 +51,6 @@ archs_for_slice()
     echo "arm64"
     ;;
   "FBSDKLoginKit.xcframework/tvos-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "FBSDKLoginKit.xcframework/ios-arm64_x86_64-maccatalyst")
     echo "arm64 x86_64"
     ;;
   esac
@@ -135,5 +135,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/FBSDKLoginKit/XCFrameworks/FBSDKLoginKit.xcframework" "FBSDKLoginKit" "framework" "ios-arm64" "ios-arm64_x86_64-simulator" "ios-arm64_x86_64-maccatalyst"
+install_xcframework "${PODS_ROOT}/FBSDKLoginKit/XCFrameworks/FBSDKLoginKit.xcframework" "FBSDKLoginKit" "framework" "ios-arm64" "ios-arm64_x86_64-maccatalyst" "ios-arm64_x86_64-simulator"
 

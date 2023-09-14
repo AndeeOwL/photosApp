@@ -102,7 +102,7 @@ export function insertUser(username, password, subscribed) {
   const promise = new Promise((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO users (username,password,subsribed) VALUES (?,?,?)`,
+        `INSERT INTO users (username,password,subscribed) VALUES (?,?,?)`,
         [username, password, subscribed],
         (_, result) => {
           resolve(result);

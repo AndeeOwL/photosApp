@@ -387,7 +387,7 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-view-shot (3.5.0):
+  - react-native-view-shot (3.4.0):
     - React-Core
   - react-native-webview (11.25.0):
     - React-Core
@@ -779,7 +779,7 @@ SPEC CHECKSUMS:
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
   react-native-fbsdk-next: c78dede90e3c50ab6936a7d56c43e1a9eb37e25a
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
-  react-native-view-shot: 792829857bbb23a9c8acdad9a640554bdee397a3
+  react-native-view-shot: a60a98a18c72bcaaaf2138f9aab960ae9b0d96c7
   react-native-webview: a71da846ed2e9085440e1d6659c04e285528834b
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
   React-RCTActionSheet: 05452c3b281edb27850253db13ecd4c5a65bc247
@@ -807,4 +807,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1bb0627679927ff5b6da27bd4180b4c31241bd13
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1
