@@ -25,9 +25,9 @@ function Register({ navigation }) {
       Alert.alert("Passwords does not match");
       return;
     }
-
     await insertUser(username, password, false);
     navigation.navigate("Login");
+    //TODO NOT WORKING ON ANDROID
   };
 
   return (

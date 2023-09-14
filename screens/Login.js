@@ -126,4 +126,5 @@ const styles = StyleSheet.create({
     margin: 10,
     paddingHorizontal: 15,
   },
+  //TODO: BUTTONS NOT ALIGNED CORRECTLY NEED MARGIN
 });
