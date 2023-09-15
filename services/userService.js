@@ -31,21 +31,3 @@ export async function getUserInfo(googleAccessToken) {
     return [true, user[0], user[1], user[3]];
   }
 }
-
-export function facebookLogin() {
-  Profile.getCurrentProfile().then(async function (currentProfile) {
-    if (currentProfile) {
-      const user = await fetchUser(currentProfile.name, currentProfile.userID);
-      if (user.length === 4) {
-        return [true, user[0], user[1], user[3]];
-      } else {
-        insertUser(currentProfile.name, currentProfile.userID, false);
-        const newUser = await fetchUser(
-          currentProfile.name,
-          currentProfile.userID
-        );
-        return [true, newUser[0], newUser[1], newUser[3]];
-      }
-    }
-  });
-}

@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { AccessToken, LoginButton } from "react-native-fbsdk-next";
+import { AccessToken, LoginButton, Profile } from "react-native-fbsdk-next";
 import LoginForm from "../components/LoginForm";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
@@ -10,6 +10,7 @@ import {
   getUserInfo,
   loginCheck,
 } from "../services/userService";
+import { fetchUser, insertUser } from "../util/database";
 
 function Login() {
   const [username, setUsername] = useState();
@@ -64,8 +65,24 @@ function Login() {
   };
 
   const loginWithFaceBook = () => {
-    const userInfo = facebookLogin();
-    navigateHome(userInfo[1], userInfo[2], userInfo[3]);
+    Profile.getCurrentProfile().then(async function (currentProfile) {
+      if (currentProfile) {
+        const user = await fetchUser(
+          currentProfile.name,
+          currentProfile.userID
+        );
+        if (user.length === 4) {
+          navigateHome(user[1], user[2], user[3]);
+        } else {
+          insertUser(currentProfile.name, currentProfile.userID, false);
+          const newUser = await fetchUser(
+            currentProfile.name,
+            currentProfile.userID
+          );
+          navigateHome(newUser[1], newUser[2], newUser[3]);
+        }
+      }
+    });
   };
 
   return (
