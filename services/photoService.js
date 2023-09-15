@@ -16,9 +16,9 @@ export async function takePhoto(
     if (!hasPermission) {
       return;
     }
-    const photo = await launchCameraAsync({
+    let photo = await launchCameraAsync({
       allowsEditing: true,
-      aspect: [16, 9],
+      aspect: [1, 1],
       quality: 0.5,
     });
     await insertPhoto(photo.assets[0].uri, id);

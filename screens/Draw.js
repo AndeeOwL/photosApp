@@ -11,7 +11,7 @@ function Draw({ route }) {
 
   const mySaveFx = async () => {
     //TODO: SaveDrawing not working
-    await saveDrawing(ref);
+    await saveDrawing(ref, route.params.id);
     navigation.navigate("Home", {
       id: route.params.id,
       username: route.params.username,
