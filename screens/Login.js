@@ -64,9 +64,8 @@ function Login() {
   };
 
   const loginWithFaceBook = () => {
-    const userInfo = facebookLogin();
+    const userInfo = () => facebookLogin();
     navigateHome(userInfo[1], userInfo[2], userInfo[3]);
-    //TODO: issue userInfo=undefined at the time of navigation
   };
 
   return (

@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   subButton: {
+    marginTop: 20,
     marginBottom: 25,
   },
 });
