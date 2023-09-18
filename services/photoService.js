@@ -17,8 +17,9 @@ export async function takePhoto(
       return;
     }
     let photo = await launchCameraAsync({
+      mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [16, 9],
       quality: 0.5,
     });
     await insertPhoto(photo.assets[0].uri, id);
