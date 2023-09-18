@@ -13,11 +13,11 @@ export async function takePhoto(
 ) {
   if (loadedImages.length < 10 || subscribed) {
     const hasPermission = await verifyPermissions();
+
     if (!hasPermission) {
       return;
     }
     let photo = await launchCameraAsync({
-      mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
