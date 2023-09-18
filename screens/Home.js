@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ route }) {
   const navigation = useNavigation();
-  const [loadedImages, setLoadedImages] = useState([""]);
+  const [loadedImages, setLoadedImages] = useState([]);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
@@ -20,8 +20,7 @@ function Home({ route }) {
 
   useEffect(() => {
     loadPhotos();
-  }, []);
-
+  });
   const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();

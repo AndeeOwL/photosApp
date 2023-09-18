@@ -4,6 +4,7 @@ import {
   MediaTypeOptions,
 } from "expo-image-picker";
 import { insertPhoto } from "../util/database";
+import { Alert } from "react-native";
 
 export async function takePhoto(
   loadedImages,

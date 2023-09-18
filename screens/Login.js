@@ -108,21 +108,23 @@ function Login() {
         login={navigateLogin}
         register={navigateRegister}
       />
-      <LoginButton
-        onLoginFinished={(error, result) => {
-          if (error) {
-            console.log("login has error: " + result.error);
-          } else if (result.isCancelled) {
-            console.log("login is cancelled.");
-          } else {
-            AccessToken.getCurrentAccessToken().then((data) => {
-              console.log(data.accessToken.toString());
-            });
-            loginWithFaceBook();
-          }
-        }}
-        onLogoutFinished={() => console.log("logout.")}
-      />
+      <View style={styles.fbLoginButton}>
+        <LoginButton
+          onLoginFinished={(error, result) => {
+            if (error) {
+              console.log("login has error: " + result.error);
+            } else if (result.isCancelled) {
+              console.log("login is cancelled.");
+            } else {
+              AccessToken.getCurrentAccessToken().then((data) => {
+                console.log(data.accessToken.toString());
+              });
+              loginWithFaceBook();
+            }
+          }}
+          onLogoutFinished={() => console.log("logout.")}
+        />
+      </View>
       <View style={styles.googleLoginButton}>
         <Button
           title='Login with Google'
@@ -153,5 +155,8 @@ const styles = StyleSheet.create({
   googleLoginButton: {
     margin: 10,
     paddingHorizontal: 15,
+  },
+  fbLoginButton: {
+    margin: 10,
   },
 });
