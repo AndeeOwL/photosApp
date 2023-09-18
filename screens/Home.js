@@ -5,6 +5,7 @@ import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
 import { takePhoto, uploadPhoto } from "../services/photoService";
 import { fetchPhotos } from "../util/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ route }) {
   const navigation = useNavigation();
@@ -48,6 +49,11 @@ function Home({ route }) {
     loadPhotos();
   };
 
+  const logoutButtonHandler = async () => {
+    await AsyncStorage.setItem("loggedUser", "");
+    navigation.navigate("Login");
+  };
+
   const navigateDraw = () => {
     if (loadedImages.length < 10) {
       navigation.navigate("Draw", {
@@ -84,6 +90,7 @@ function Home({ route }) {
       </View>
       <View style={styles.subButton}>
         <Button title='Subscribe' onPress={navigatePayments} />
+        <Button title='Logout' onPress={logoutButtonHandler} />
       </View>
     </View>
   );

@@ -5,12 +5,9 @@ import { AccessToken, LoginButton, Profile } from "react-native-fbsdk-next";
 import LoginForm from "../components/LoginForm";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import {
-  facebookLogin,
-  getUserInfo,
-  loginCheck,
-} from "../services/userService";
+import { getUserInfo, loginCheck } from "../services/userService";
 import { fetchUser, insertUser } from "../util/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login() {
   const [username, setUsername] = useState();
@@ -41,8 +38,23 @@ function Login() {
     });
   };
 
+  const checkLoggedUser = async () => {
+    const loggedUser = await AsyncStorage.getItem("loggedUser");
+    if (loggedUser !== null) {
+      const user = await fetchUser(loggedUser);
+      if (user) {
+        navigateHome(user[0], user[1], user[3]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkLoggedUser();
+  }, []);
+
   const navigateLogin = async () => {
     const user = await loginCheck(username, password);
+    await AsyncStorage.setItem("loggedUser", username);
     navigateHome(user[0], user[1], user[3]);
   };
 
@@ -56,7 +68,7 @@ function Login() {
   const fetchUserInformation = async () => {
     const userInfo = await getUserInfo(googleAccessToken);
     if (userInfo[0] === true) {
-      navigateHome(userInfo[1], userInfo[2], userInfo[3]);
+      navigateHome(userInfo[0], userInfo[1], userInfo[3]);
     }
   };
 
@@ -72,14 +84,16 @@ function Login() {
           currentProfile.userID
         );
         if (user.length === 4) {
-          navigateHome(user[1], user[2], user[3]);
+          await AsyncStorage.setItem("loggedUser", user[1]);
+          navigateHome(user[0], user[1], user[3]);
         } else {
           insertUser(currentProfile.name, currentProfile.userID, false);
           const newUser = await fetchUser(
             currentProfile.name,
             currentProfile.userID
           );
-          navigateHome(newUser[1], newUser[2], newUser[3]);
+          await AsyncStorage.setItem("loggedUser", newUser[1]);
+          navigateHome(newUser[0], newUser[1], newUser[3]);
         }
       }
     });
