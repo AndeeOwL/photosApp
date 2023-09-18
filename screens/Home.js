@@ -89,8 +89,12 @@ function Home({ route }) {
         </View>
       </View>
       <View style={styles.subButton}>
-        <Button title='Subscribe' onPress={navigatePayments} />
-        <Button title='Logout' onPress={logoutButtonHandler} />
+        <View>
+          <Button title='Subscribe' onPress={navigatePayments} />
+        </View>
+        <View style={styles.logoutButton}>
+          <Button title='Logout' onPress={logoutButtonHandler} />
+        </View>
       </View>
     </View>
   );
@@ -121,7 +125,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   subButton: {
+    flexDirection: "row",
     marginTop: 20,
     marginBottom: 25,
+  },
+  logoutButton: {
+    marginLeft: 10,
   },
 });
