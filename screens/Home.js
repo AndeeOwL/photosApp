@@ -20,7 +20,8 @@ function Home({ route }) {
 
   useEffect(() => {
     loadPhotos();
-  });
+  }, []);
+
   const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
