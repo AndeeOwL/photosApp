@@ -58,6 +58,23 @@ export function insertPhoto(image, id) {
   return promise;
 }
 
+export function deletePhoto(image) {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `DELETE FROM photos WHERE image LIKE '${image}'`,
+        (_, result) => {
+          resolve(result);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+  return promise;
+}
+
 export function fetchPhotos(id) {
   const promise = new Promise((resolve, reject) => {
     database.transaction((tx) => {
