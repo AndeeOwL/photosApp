@@ -1,6 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCameraPermissions, PermissionStatus } from "expo-image-picker";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
 import { takePhoto, uploadPhoto } from "../services/photoService";
@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ route }) {
   const navigation = useNavigation();
-  const [loadedImages, setLoadedImages] = useState([""]);
+  const [loadedImages, setLoadedImages] = useState([]);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
@@ -18,9 +18,11 @@ function Home({ route }) {
     setLoadedImages(photoList);
   };
 
-  useEffect(() => {
-    loadPhotos();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadPhotos();
+    }, [])
+  );
 
   const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
