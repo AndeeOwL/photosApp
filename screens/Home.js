@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ route }) {
   const navigation = useNavigation();
-  const [loadedImages, setLoadedImages] = useState([]);
+  const [loadedImages, setLoadedImages] = useState([""]);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
