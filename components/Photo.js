@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import { deletePhoto } from "../util/database";
 
-function Photo({ photo }) {
+function Photo({ photo, deleteImage }) {
   const navigation = useNavigation();
   const openImagePreview = () => {
     navigation.navigate("PhotoPreview", {
@@ -10,8 +10,8 @@ function Photo({ photo }) {
     });
   };
 
-  const deleteFromDB = async () => {
-    await deletePhoto(photo);
+  const deleteFromDB = () => {
+    deleteImage(photo);
   };
 
   return (

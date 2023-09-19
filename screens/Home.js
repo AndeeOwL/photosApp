@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
 import { takePhoto, uploadPhoto } from "../services/photoService";
-import { fetchPhotos } from "../util/database";
+import { deletePhoto, fetchPhotos } from "../util/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ route }) {
@@ -23,6 +23,17 @@ function Home({ route }) {
       loadPhotos();
     }, [])
   );
+
+  const deleteImage = async (image) => {
+    const newArray = [];
+    loadedImages.map((e) => {
+      if (e !== image) {
+        newArray.push(e);
+      }
+    });
+    setLoadedImages(newArray);
+    await deletePhoto(image);
+  };
 
   const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
@@ -78,7 +89,7 @@ function Home({ route }) {
     <View style={styles.container}>
       <Text style={styles.title}>{route.params.username}</Text>
       <Text style={styles.secondTitle}>photosApp</Text>
-      <PhotosList images={loadedImages} />
+      <PhotosList images={loadedImages} deleteImage={deleteImage} />
       <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
           <Button title='Take Photo' onPress={takePhotoHandler} />

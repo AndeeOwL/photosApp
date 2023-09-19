@@ -16,7 +16,9 @@ function PhotosList(props) {
       style={styles.listContainer}
       data={props.images}
       key={(item) => item}
-      renderItem={({ item }) => <Photo photo={item} />}
+      renderItem={({ item }) => (
+        <Photo photo={item} deleteImage={props.deleteImage} />
+      )}
     />
   );
 }
