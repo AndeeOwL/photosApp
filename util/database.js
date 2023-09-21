@@ -11,7 +11,7 @@ export function init() {
         id INTEGER PRIMARY KEY NOT NULL,
         username TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        subscribed BOOLEAN NOT NULL,
+        subscribed BOOLEAN NOT NULL
     )`,
         [],
         () => {
@@ -46,6 +46,23 @@ export function insertPhoto(image, id) {
       tx.executeSql(
         `INSERT INTO photos (image,user_id) VALUES (?,?)`,
         [image, id],
+        (_, result) => {
+          resolve(result);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+  return promise;
+}
+
+export function deletePhoto(image) {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `DELETE FROM photos WHERE image LIKE '${image}'`,
         (_, result) => {
           resolve(result);
         },
@@ -102,7 +119,7 @@ export function insertUser(username, password, subscribed) {
   const promise = new Promise((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO users (username,password,subsribed) VALUES (?,?,?)`,
+        `INSERT INTO users (username,password,subscribed) VALUES (?,?,?)`,
         [username, password, subscribed],
         (_, result) => {
           resolve(result);

@@ -4,6 +4,7 @@ import {
   MediaTypeOptions,
 } from "expo-image-picker";
 import { insertPhoto } from "../util/database";
+import { Alert } from "react-native";
 
 export async function takePhoto(
   loadedImages,
@@ -13,10 +14,11 @@ export async function takePhoto(
 ) {
   if (loadedImages.length < 10 || subscribed) {
     const hasPermission = await verifyPermissions();
+
     if (!hasPermission) {
       return;
     }
-    const photo = await launchCameraAsync({
+    let photo = await launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,

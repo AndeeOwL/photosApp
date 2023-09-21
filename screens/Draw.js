@@ -10,7 +10,7 @@ function Draw({ route }) {
   const ref = useRef();
 
   const mySaveFx = async () => {
-    await saveDrawing(ref);
+    await saveDrawing(ref, route.params.id);
     navigation.navigate("Home", {
       id: route.params.id,
       username: route.params.username,

@@ -1,27 +1,39 @@
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCameraPermissions, PermissionStatus } from "expo-image-picker";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import PhotosList from "../components/PhotosList";
 import { takePhoto, uploadPhoto } from "../services/photoService";
-import { fetchPhotos } from "../util/database";
+import { deletePhoto, fetchPhotos } from "../util/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ route }) {
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
-  const [loadedImages, setLoadedImages] = useState([""]);
+  const [loadedImages, setLoadedImages] = useState([]);
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
-  useEffect(() => {
-    async function loadPhotos() {
-      const photoList = await fetchPhotos(route.params.id);
-      setLoadedImages(photoList);
-    }
-    if (isFocused) {
+  const loadPhotos = async () => {
+    const photoList = await fetchPhotos(route.params.id);
+    setLoadedImages(photoList);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
       loadPhotos();
-    }
-  }, [isFocused]);
+    }, [])
+  );
+
+  const deleteImage = async (image) => {
+    const newArray = [];
+    loadedImages.map((e) => {
+      if (e !== image) {
+        newArray.push(e);
+      }
+    });
+    setLoadedImages(newArray);
+    await deletePhoto(image);
+  };
 
   const verifyPermissions = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
@@ -35,16 +47,25 @@ function Home({ route }) {
     return true;
   };
 
-  const takePhotoHandler = async () =>
+  const takePhotoHandler = async () => {
     await takePhoto(
       loadedImages,
       route.params.subscribed,
       verifyPermissions,
-      id
+      route.params.id
     );
+    loadPhotos();
+  };
 
-  const uploadPhotoHandler = async () =>
+  const uploadPhotoHandler = async () => {
     await uploadPhoto(loadedImages, route.params.subscribed, route.params.id);
+    loadPhotos();
+  };
+
+  const logoutButtonHandler = async () => {
+    await AsyncStorage.setItem("loggedUser", "");
+    navigation.navigate("Login");
+  };
 
   const navigateDraw = () => {
     if (loadedImages.length < 10) {
@@ -53,7 +74,7 @@ function Home({ route }) {
         username: route.params.username,
       });
     } else {
-      Alert.alert("Free space full buy subscription to add more photos");
+      Alert.alert("Free space full,buy subscription to add more photos");
     }
   };
 
@@ -68,7 +89,7 @@ function Home({ route }) {
     <View style={styles.container}>
       <Text style={styles.title}>{route.params.username}</Text>
       <Text style={styles.secondTitle}>photosApp</Text>
-      <PhotosList images={loadedImages} />
+      <PhotosList images={loadedImages} deleteImage={deleteImage} />
       <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
           <Button title='Take Photo' onPress={takePhotoHandler} />
@@ -81,7 +102,12 @@ function Home({ route }) {
         </View>
       </View>
       <View style={styles.subButton}>
-        <Button title='Subscribe' onPress={navigatePayments} />
+        <View>
+          <Button title='Subscribe' onPress={navigatePayments} />
+        </View>
+        <View style={styles.logoutButton}>
+          <Button title='Logout' onPress={logoutButtonHandler} />
+        </View>
       </View>
     </View>
   );
@@ -112,6 +138,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   subButton: {
+    flexDirection: "row",
+    marginTop: 20,
     marginBottom: 25,
+  },
+  logoutButton: {
+    marginLeft: 10,
   },
 });

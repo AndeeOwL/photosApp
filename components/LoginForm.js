@@ -10,17 +10,18 @@ function LoginForm(props) {
         onChangeText={props.usernameChange}
       />
       <TextInput
+        secureTextEntry={true}
         style={styles.inputFields}
         placeholder='Password...'
         onChangeText={props.passwordChange}
       />
       <View style={styles.buttonContainer}>
-        <Button style={styles.buttons} title='LOGIN' onPress={props.login} />
-        <Button
-          style={styles.buttons}
-          title='REGISTER'
-          onPress={props.register}
-        />
+        <View style={styles.buttons}>
+          <Button title='LOGIN' onPress={props.login} />
+        </View>
+        <View style={styles.buttons}>
+          <Button title='REGISTER' onPress={props.register} />
+        </View>
       </View>
     </View>
   );
@@ -36,9 +37,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-  },
-  buttons: {
-    margin: 10,
+    padding: 10,
   },
   formTitle: {
     fontSize: 26,
@@ -50,5 +49,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 15,
     padding: 10,
+  },
+  buttons: {
+    margin: 10,
   },
 });

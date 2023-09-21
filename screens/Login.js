@@ -1,15 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { AccessToken, LoginButton } from "react-native-fbsdk-next";
+import { AccessToken, LoginButton, Profile } from "react-native-fbsdk-next";
 import LoginForm from "../components/LoginForm";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import {
-  facebookLogin,
-  getUserInfo,
-  loginCheck,
-} from "../services/userService";
+import { getUserInfo, loginCheck } from "../services/userService";
+import { fetchUser, insertUser } from "../util/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login() {
   const [username, setUsername] = useState();
@@ -40,8 +38,23 @@ function Login() {
     });
   };
 
+  const checkLoggedUser = async () => {
+    const loggedUser = await AsyncStorage.getItem("loggedUser");
+    if (loggedUser !== null) {
+      const user = await fetchUser(loggedUser);
+      if (user) {
+        navigateHome(user[0], user[1], user[3]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkLoggedUser();
+  }, []);
+
   const navigateLogin = async () => {
     const user = await loginCheck(username, password);
+    await AsyncStorage.setItem("loggedUser", username);
     navigateHome(user[0], user[1], user[3]);
   };
 
@@ -55,7 +68,7 @@ function Login() {
   const fetchUserInformation = async () => {
     const userInfo = await getUserInfo(googleAccessToken);
     if (userInfo[0] === true) {
-      navigateHome(userInfo[1], userInfo[2], userInfo[3]);
+      navigateHome(userInfo[0], userInfo[1], userInfo[3]);
     }
   };
 
@@ -64,8 +77,26 @@ function Login() {
   };
 
   const loginWithFaceBook = () => {
-    const userInfo = facebookLogin();
-    navigateHome(userInfo[1], userInfo[2], userInfo[3]);
+    Profile.getCurrentProfile().then(async function (currentProfile) {
+      if (currentProfile) {
+        const user = await fetchUser(
+          currentProfile.name,
+          currentProfile.userID
+        );
+        if (user.length === 4) {
+          await AsyncStorage.setItem("loggedUser", user[1]);
+          navigateHome(user[0], user[1], user[3]);
+        } else {
+          insertUser(currentProfile.name, currentProfile.userID, false);
+          const newUser = await fetchUser(
+            currentProfile.name,
+            currentProfile.userID
+          );
+          await AsyncStorage.setItem("loggedUser", newUser[1]);
+          navigateHome(newUser[0], newUser[1], newUser[3]);
+        }
+      }
+    });
   };
 
   return (
@@ -77,24 +108,25 @@ function Login() {
         login={navigateLogin}
         register={navigateRegister}
       />
-      <LoginButton
-        onLoginFinished={(error, result) => {
-          if (error) {
-            console.log("login has error: " + result.error);
-          } else if (result.isCancelled) {
-            console.log("login is cancelled.");
-          } else {
-            AccessToken.getCurrentAccessToken().then((data) => {
-              console.log(data.accessToken.toString());
-            });
-            loginWithFaceBook();
-          }
-        }}
-        onLogoutFinished={() => console.log("logout.")}
-      />
+      <View style={styles.fbLoginButton}>
+        <LoginButton
+          onLoginFinished={(error, result) => {
+            if (error) {
+              console.log("login has error: " + result.error);
+            } else if (result.isCancelled) {
+              console.log("login is cancelled.");
+            } else {
+              AccessToken.getCurrentAccessToken().then((data) => {
+                console.log(data.accessToken.toString());
+              });
+              loginWithFaceBook();
+            }
+          }}
+          onLogoutFinished={() => console.log("logout.")}
+        />
+      </View>
       <View style={styles.googleLoginButton}>
         <Button
-          color='white'
           title='Login with Google'
           disabled={!request}
           onPress={() => {
@@ -121,8 +153,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   googleLoginButton: {
-    backgroundColor: "red",
     margin: 10,
     paddingHorizontal: 15,
+  },
+  fbLoginButton: {
+    margin: 10,
   },
 });

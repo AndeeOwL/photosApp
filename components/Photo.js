@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { Image, Pressable, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { deletePhoto } from "../util/database";
 
-function Photo({ photo }) {
+function Photo({ photo, deleteImage }) {
   const navigation = useNavigation();
   const openImagePreview = () => {
     navigation.navigate("PhotoPreview", {
@@ -9,9 +10,19 @@ function Photo({ photo }) {
     });
   };
 
+  const deleteFromDB = () => {
+    deleteImage(photo);
+  };
+
   return (
     <Pressable style={styles.container} onPress={openImagePreview}>
       <Image style={styles.photo} source={{ uri: photo }} />
+      <Pressable
+        style={styles.deleteButtonContainer}
+        onPress={() => deleteFromDB()}
+      >
+        <Text style={styles.deleteButton}>X</Text>
+      </Pressable>
     </Pressable>
   );
 }
@@ -26,7 +37,18 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   photo: {
+    position: "absolute",
     height: 150,
     width: 300,
+  },
+  deleteButtonContainer: {
+    alignItems: "flex-end",
+  },
+  deleteButton: {
+    margin: 5,
+    color: "red",
+    fontSize: 25,
+    backgroundColor: "black",
+    padding: 5,
   },
 });

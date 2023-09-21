@@ -1,5 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { ShareDialog } from "react-native-fbsdk-next";
 import { windowHeight, windowWidth } from "../constants/dimensions";
 

@@ -17,11 +17,11 @@ RSYNC_PROTECT_TMP_FILES=(--filter "P .*.??????")
 variant_for_slice()
 {
   case "$1" in
-  "FBSDKGamingServicesKit.xcframework/ios-arm64_x86_64-maccatalyst")
-    echo "maccatalyst"
-    ;;
   "FBSDKGamingServicesKit.xcframework/ios-arm64")
     echo ""
+    ;;
+  "FBSDKGamingServicesKit.xcframework/ios-arm64_x86_64-maccatalyst")
+    echo "maccatalyst"
     ;;
   "FBSDKGamingServicesKit.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
@@ -32,11 +32,11 @@ variant_for_slice()
 archs_for_slice()
 {
   case "$1" in
-  "FBSDKGamingServicesKit.xcframework/ios-arm64_x86_64-maccatalyst")
-    echo "arm64 x86_64"
-    ;;
   "FBSDKGamingServicesKit.xcframework/ios-arm64")
     echo "arm64"
+    ;;
+  "FBSDKGamingServicesKit.xcframework/ios-arm64_x86_64-maccatalyst")
+    echo "arm64 x86_64"
     ;;
   "FBSDKGamingServicesKit.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
@@ -123,5 +123,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/FBSDKGamingServicesKit/XCFrameworks/FBSDKGamingServicesKit.xcframework" "FBSDKGamingServicesKit" "framework" "ios-arm64_x86_64-maccatalyst" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/FBSDKGamingServicesKit/XCFrameworks/FBSDKGamingServicesKit.xcframework" "FBSDKGamingServicesKit" "framework" "ios-arm64" "ios-arm64_x86_64-maccatalyst" "ios-arm64_x86_64-simulator"
 
